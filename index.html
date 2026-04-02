@@ -387,20 +387,23 @@ async function save() {
     if (!document.getElementById("persen").value) { alert("⚠️ Pilih persentase kelayakan!"); return; }
     const b = document.getElementById("btnSave");
     b.disabled = true; b.innerText = "SEDANG MENGIRIM...";
-    const payload = {
-        ts: new Date().toLocaleString("id-ID"),
-        nama: rawVal,
-        jbt: document.getElementById("jabatan").value,
-        unit: document.getElementById("spek").value,
-        kondisi: ITEMS.map(k => {
-            const id = k.toLowerCase().replace(/ /g, "");
-            const v = document.querySelector(`input[name="${id}"]:checked`).value;
-            return `${k}: ${v}`;
-        }).join(" | "),
-        aks: ["tas","mouse","keyboard","stylus"].filter(a => document.getElementById(`aks_${a}`).checked).join(", "),
-        pct: document.getElementById("persen").value + "%",
-        ket: document.getElementById("ket_umum").value
-    };
+// KODE BARU (PAKE YANG INI BRO)
+const payload = {
+    ts: new Date().toLocaleString("id-ID"),
+    nama: rawVal,
+    jbt: document.getElementById("jabatan").value,
+    unit: document.getElementById("spek").value,
+    
+    // Ini bagian yang memecah data jadi 4 kolom terpisah (E, F, G, H)
+    hw: document.querySelector('input[name="hardware"]:checked').value,      // Masuk ke kolom Hardware
+    os: document.querySelector('input[name="sistemoperasi"]:checked').value, // Masuk ke kolom Sistem Operasi
+    sw: document.querySelector('input[name="software"]:checked').value,      // Masuk ke kolom Software
+    fs: document.querySelector('input[name="kondisifisik"]:checked').value,  // Masuk ke kolom Kondisi Fisik
+    
+    aks: ["tas","mouse","keyboard","stylus"].filter(a => document.getElementById(`aks_${a}`).checked).join(", "),
+    pct: document.getElementById("persen").value + "%",
+    ket: document.getElementById("ket_umum").value
+};
     try {
         await fetch("https://script.google.com/macros/s/AKfycbztZh5m4Jm8Q6ZLnpOJePi1G42rBj6u6X76_i9-r2CGvagNqR3FdQyD0eFMd4ooXrtO/exec", {
             method: "POST", mode: "no-cors", body: JSON.stringify(payload)

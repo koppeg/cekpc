@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Nama Web Lo</title>
+
+    <script>
+      const waktuMulai = new Date('2026-04-01 08:00:00'); 
+      const waktuSelesai = new Date('2026-04-05 17:00:00');
+      const sekarang = new Date();
+      const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+
+      if (sekarang < waktuMulai || sekarang > waktuSelesai) {
+          document.documentElement.innerHTML = `
+            <div style="display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; text-align:center; background:#121212; color:#fff; flex-direction:column;">
+                <div style="border:1px solid #444; padding:30px; border-radius:15px; background:#1e1e1e;">
+                    <h1 style="color:#f39c12;">Akses Belum Dibuka / Sudah Berakhir</h1>
+                    <p>Web ini hanya aktif pada:</p>
+                    <p style="color:#00ff88;">${waktuMulai.toLocaleString('id-ID', opsi)} WIB</p>
+                    <p>sampai</p>
+                    <p style="color:#ff4d4d;">${waktuSelesai.toLocaleString('id-ID', opsi)} WIB</p>
+                </div>
+            </div>
+          `;
+          window.stop();
+      }
+    </script>
+    </head>
+<body>
+    </body>
+</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Audit Aset IT - Clean System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; --text: #1e293b; --accent: #f8fafc; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; padding: 20px 10px; }
+        .container-custom { max-width: 1000px; margin: 0 auto; }
+        .card-premium { background: var(--card); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 35px; border: 1px solid #e2e8f0; }
+        .form-label { font-size: 0.75rem; letter-spacing: 0.5px; color: #64748b; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; }
+        .form-control-read { background-color: #f8fafc !important; font-weight: 700; color: var(--primary) !important; border: 1px solid #e2e8f0; }
+        .form-select, .form-control { border-radius: 12px; padding: 12px 15px; border: 1px solid #cbd5e1; }
+        .table-container { border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 25px; background: #fff; }
+        .table thead { background-color: #1e293b; color: white; }
+        .table th { font-size: 0.75rem; text-transform: uppercase; padding: 18px; text-align: center; }
+        .table td { padding: 20px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        .form-check-input { width: 1.6em; height: 1.6em; cursor: pointer; border: 2px solid #cbd5e1; }
+        .form-check-input:checked { background-color: var(--primary); border-color: var(--primary); }
+        .option-box { background: var(--accent); border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; }
+        .btn-send { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 700; width: 100%; transition: 0.2s; text-transform: uppercase; }
+        .btn-send:hover { opacity: 0.9; transform: translateY(-2px); }
+        .aks-item { font-size: 0.85rem; font-weight: 600; color: #475569; }
+        @media (max-width: 768px) {
+            .table thead { display: none; }
+            .table tr { display: block; margin-bottom: 20px; border: 1px solid #eee; border-radius: 15px; padding: 10px; }
+            .table td { display: flex; justify-content: space-between; align-items: center; border: none; padding: 12px 5px; }
+            .table td:first-child { font-weight: 800; color: var(--primary); display: block; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px; text-align: left; }
+            .table td:not(:first-child)::before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container-custom">
+    <div class="card-premium">
+        <h4 class="text-center fw-bold mb-1">Audit Aset IT Terpusat</h4>
+        <p class="text-center text-muted small mb-4">Sistem Inventaris Otomatis - PT PLN Indonesia Power</p>
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label class="form-label">Cari Nama Penanggung Jawab</label>
+                <input list="dataKaryawan" id="nama" class="form-control" placeholder="Ketik Nama..." oninput="handleAuto()">
+                <datalist id="dataKaryawan"></datalist>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Jabatan</label>
+                <input type="text" id="jabatan" class="form-control form-control-read" readonly placeholder="-">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Spesifikasi Unit</label>
+                <input type="text" id="spek" class="form-control form-control-read" readonly placeholder="-">
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-start">Komponen Audit</th>
+                        <th>BAIK</th><th>KURANG</th><th>RUSAK</th>
+                    </tr>
+                </thead>
+                <tbody id="auditRows"></tbody>
+            </table>
+        </div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-8">
+                <div class="option-box">
+                    <label class="form-label d-block mb-3">Aksesoris Terdeteksi (Otomatis)</label>
+                    <div class="d-flex flex-wrap gap-4">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_tas" disabled><label class="aks-item ms-1">Tas</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_mouse" disabled><label class="aks-item ms-1">Mouse</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_keyboard" disabled><label class="aks-item ms-1">Keyboard</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_stylus" disabled><label class="aks-item ms-1">Stylus Pen</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="option-box h-100">
+                    <label class="form-label">Kelayakan (%)</label>
+                    <select id="persen" class="form-select"></select>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <label class="form-label">Catatan Tambahan (Opsional)</label>
+            <textarea id="ket_umum" class="form-control" rows="2" placeholder="Tulis catatan jika ada..."></textarea>
+        </div>
+        <div class="p-3 mb-4 bg-light rounded border-start border-4 border-primary">
+            <div class="form-check">
+                <input class="form-check-input me-2" type="checkbox" id="pernyataan">
+                <label class="form-check-label small fw-bold">Konfirmasi kebenaran data audit (TTD Digital)</label>
+            </div>
+        </div>
+        <button onclick="save()" id="btnSave" class="btn btn-send">Simpan Laporan Sekarang ✅</button>
+    </div>
+</div>
+<script>
+const DB = {
+    "BOWO PRAMONO": { jbt: "Senior Manager", spek: "Manajemen - Macbook Pro M3", aks: ["stylus"] },
+    "AGUS SETIAWAN": { jbt: "STKP", spek: "Manajemen - Laptop ASUS PRO ART PZ13", aks: ["stylus", "tas"] },
+    "ANGGA PRADIPTA": { jbt: "MADM", spek: "Manajemen - Laptop ASUS PRO ART PZ13", aks: ["stylus", "tas"] },
+    "DENI NUGRAHA": { jbt: "MEP", spek: "Manajemen - Laptop ASUS PRO ART PZ13", aks: ["stylus", "tas"] },
+    "ARMAN SUSANTO": { jbt: "MHAR", spek: "Manajemen - Laptop ASUS PRO ART PZ13", aks: ["stylus", "tas"] },
+    "IRAWAN PARMAPUTRA": { jbt: "MOP", spek: "Manajemen - Laptop ASUS PRO ART PZ13", aks: ["stylus", "tas"] },
+    "WILDANUL HAKIM": { jbt: "MENG", spek: "Manajemen - Laptop ASUS PRO ART PZ13", aks: ["stylus", "tas"] },
+    "ANDRA BAYU PS": { jbt: "ASMAN KEUANGAN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ANDY APRIANSYAH": { jbt: "ASMAN UMUM", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ASEP TRESNA LH": { jbt: "ASMAN SDM", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "HANDARIANSAH": { jbt: "ASMAN PBJ", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ADITYA MAHARDHIKA": { jbt: "ASMAN RCBM", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "AGUNG PRASETYO": { jbt: "SENIOR OFFICER ENG BOP", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ALAM TRI YUDHA": { jbt: "SENIOR OFFICER ENG BOILER", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ANDIK HERMAWANTO": { jbt: "SENIOR OFFICER ENG LISTRIK", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ARIS CAHYONO": { jbt: "SENIOR OFFICER ENG LISTRIK", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "DADANG SAHRONI": { jbt: "SENIOR OFFICER PENGENDALIAN KONTRAK", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "DIAZ ZAKARIA": { jbt: "SENIOR OFFICER ENG TURBIN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "EDHY SANTOSO": { jbt: "SENIOR OFFICER ENG KIMIA, K3 & LINGKUNGAN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "FIRZA MULDANI": { jbt: "ASMAN EKSIS", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "HERU HERMAWAN": { jbt: "SENIOR OFFICER EPA", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "HERY IRAWAN": { jbt: "SENIOR OFFICER ENG KONTROL & INSTRUMEN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "IWAN HARDIKA": { jbt: "ASMAN LCM, INVESTASI & MANAJEMEN RISIKO", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "REMON YONASA HT": { jbt: "SENIOR OFFICER ENG TURBIN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "RONANDA ADITYA PN": { jbt: "SENIOR OFFICER ENG KONTROL & INSTRUMEN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "SATRIA RIZKI": { jbt: "SENIOR OFFICER ENG BOILER", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "SUDIRMAN BE": { jbt: "SENIOR OFFICER ENG KIMIA, K3 & LINGKUNGAN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "SUDIRMAN BS": { jbt: "SENIOR OFFICER ENG KIMIA, K3 & LINGKUNGAN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ADI AHMAD W": { jbt: "ASMAN PENYALURAN EPA", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ARIE NOVIYANTO": { jbt: "ASMAN HAR INSTALASI EPA", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "AR\'RAHMANSYAH MUHAMAD": { jbt: "ASMAN INVENTORY EPA", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "DANDI SUKMARAHADI": { jbt: "ASMAN HAR MESIN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "FAJAR SETIYONO": { jbt: "ASMAN RENDALHAR", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "HALIM": { jbt: "ASMAN HAR KONTROL & INSTRUMEN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "SIGIT DWI PERMANA": { jbt: "ASMAN HAR LISTRIK", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ARIM SAKTI P": { jbt: "ASMAN OPERASI REGU B", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "HANDOYO": { jbt: "ASMAN K3 & LINGKUNGAN", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "LEO NARDY": { jbt: "ASMAN OPERASI REGU D", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "MU\'RIDIN": { jbt: "ASMAN KIMIA & BOP", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "ABNUR ODIRI": { jbt: "ASMAN OPERASI REGU C", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "WAHYUDIN SIDIK": { jbt: "ASMAN OPERASI REGU A", spek: "Penyelia Atas - Lenovo Thinkpad E14 Gen 6 Ultra 7", aks: ["tas"] },
+    "RAHWINDHY MAZHAR CHASNANDA": { jbt: "ASMAN RENDAL OPERASI", spek: "Penyelia Atas - Lenovo LOQ 15AHP10 Ryzen 7 250", aks: ["tas"] },
+    "ARI DWI CAHYONO": { jbt: "OFFICER SKM", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MOHAMMAD BAGUS OKKY": { jbt: "OFFICER BUDAYA DAN GCG", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "TUMPAL SAMOSIR": { jbt: "OFFICER AKUNTANSI", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RIO RINARWANDI": { jbt: "TEAM LEADER GUDANG", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MUHAMMAD IQBAL FIRDAUS": { jbt: "OFFICER PBJ", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "IRFAN": { jbt: "OFFICER ANGGARAN", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MUCHAMAD RIVALDI FK": { jbt: "OFFICER SIPIL, SARANA & FASILITAS", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "ROBERT DAVID CARNIAGO": { jbt: "OFFICER CSR, HUMAS & KEAMANAN", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "WASIS WICAKSONO": { jbt: "OFFICER SDM", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "FK YUDO WICAKSONO SAPUTRO": { jbt: "OFFICER PBJ", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "AGUS KURNIAWAN": { jbt: "OFFICER ENG EFISIENSI", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "AGUS TOMI": { jbt: "TEAM LEADER HAR LISTRIK BOP", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MASEDONIUS ANDREW PRADANA U": { jbt: "OFFICER ENG EFISIENSI", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "BOBBY PRAYOGO": { jbt: "OFFICER LCM & INVESTASI", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "HAKIM SATYADI": { jbt: "OFFICER SKM & KINERJA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MUHAMMAD SYUKRI HARDIANTO": { jbt: "TEAM LEADER SIS", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "HENDRI ASRIANDI": { jbt: "TEAM LEADER OPERASI PENYALURAN EPA REGU D", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "PRIMA RADIANSYAH": { jbt: "OFFICER MANAJEMEN RISIKO", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "QOLIS FANDRA IRAWAN": { jbt: "OFFICER PREDICTIVE MAINTENANCE", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RIZKY TRI SAPUTRO": { jbt: "OFFICER PREDICTIVE MAINTENANCE", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "TEGUH PURNAMA": { jbt: "OFFICER RELIABILITY", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "JOSEPH WILANTARA GULO": { jbt: "OFFICER RELIABILITY", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "BAMBANG KURNIAWAN": { jbt: "TEAM LEADER HAR LKI EPA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "BAYU SAPTA NUGRAHA": { jbt: "TEAM LEADER OPERASI PENYALURAN EPA REGU C", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "NICO DWI KURNIADI": { jbt: "OFFICER RENDAL EPA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "YAHYA ZULTHONI": { jbt: "TEAM LEADER OPERASI PENYALURAN EPA REGU A", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "ADITYA WIDAGDO PUTRA": { jbt: "AHLI MUDA PERENCANAAN OUTAGE", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "ARDI SURYADINATA": { jbt: "TEAM LEADER HAR LISTRIK", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "BAGUS VANY SETIAWAN": { jbt: "TEAM LEADER HAR MESIN BOP & BENGKEL", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "BOBBY LUMBAN TOBING": { jbt: "TEAM LEADER HAR MEKANIK INSTALASI EPA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MUHAMMAD NUR CHAMDANI": { jbt: "TEAM LEADER RENDALHAR", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "FAHRUDY UTOMO": { jbt: "TEAM LEADER HAR MESIN BOILER", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "FAJAR GUMILANG": { jbt: "AHLI MUDA PERENCANAAN OUTAGE", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MUHAMMAD FARRAS ILHAM": { jbt: "OFFICER RENDAL HAR INSTALASI EPA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "FERI SAPUTRA": { jbt: "TEAM LEADER HAR KONTROL & INSTRUMEN BOP", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "HERBERT PANONDANG SINAGA": { jbt: "OFFICER RENVAL HAR", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RAHMAT FAJAR KURNIAWAN": { jbt: "AHLI MUDA PERENCANAAN OUTAGE", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RAINHOLD TIGOR PARLINDUNGAN BUTARBUTAR": { jbt: "OFFICER RENVAL HAR", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RIDHO DWI SAPUTRA": { jbt: "OFFICER INVENTORY", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RIYAN JAMARIF": { jbt: "OFFICER RENVAL HAR", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MUHAMAD SHOBIRIN": { jbt: "OFFICER RENVAL HAR", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "TRI BUDIMAN JABARTI": { jbt: "TEAM LEADER HAR MESIN TURBIN", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "YOGI LISTIARGA": { jbt: "TEAM LEADER HAR KONTROL & INSTRUMEN", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "DUGARRY FIRMANSYAH HARIYANTO": { jbt: "TEAM LEADER RENDAL EP", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "AJI UNGGUL PRASETIA": { jbt: "TEAM LEADER OPERASI UNIT 2 REGU A", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "ADDY MUHAMMAD YASIR ROZIKUN": { jbt: "TEAM LEADER OPERASI UNIT 3 REGU A", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "DANANG HUTAMA": { jbt: "TEAM LEADER BOP REGU C", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "FADHOLI": { jbt: "OFFICER RENVAL & KINERJA OPERASI", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "FAJRI EKA MAULDY": { jbt: "TEAM LEADER BOP REGU D", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "GALIH TRI LAKSANA": { jbt: "TEAM LEADER OPERASI UNIT 1 REGU A", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "GANDA ISNUARDANA": { jbt: "TEAM LEADER OPERASI UNIT 1 REGU C", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "GARCIA VALDA UNSO": { jbt: "JUNIOR OFFICER KIMIA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "GENTA IRIANA": { jbt: "TEAM LEADER OPERASI PENYALURAN EPA REGU B", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "HADI HANNAR WIRYATMO": { jbt: "TEAM LEADER OPERASI UNIT 1 REGU B", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "ILHAM KHRISNA NUGRAHA": { jbt: "TEAM LEADER OPERASI UNIT 2 REGU B", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "ISMU MUBAROK": { jbt: "TEAM LEADER OPERASI UNIT 1 REGU D", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "KUKUH SATRIYANTO": { jbt: "OFFICER RENVAL & KINERJA OPERASI", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MENARA HUTAGAOL": { jbt: "TEAM LEADER OPERASI UNIT 2 REGU C", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "NANDA PUJI ARIANTO": { jbt: "TEAM LEADER OPERASI UNIT 3 REGU D", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "AHMAD NOPRAN ZULPIKAR": { jbt: "TEAM LEADER OPERASI UNIT 3 REGU B", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "KURNIAWAN SAKTI PRATAMA": { jbt: "OFFICER KIMIA", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "SARDI": { jbt: "TEAM LEADER BOP REGU A", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "MAULANA SIGIT WICAKSONO": { jbt: "TEAM LEADER OPERASI UNIT 3 REGU C", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "IDAM KHOLID": { jbt: "TEAM LEADER BOP REGU B", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "TAUFIK KURNIAWAN": { jbt: "TEAM LEADER OPERASI UNIT 3 REGU A", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "SYAFRUDIN": { jbt: "OFFICER LINGKUNGAN", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "RIAN RAMADHAN": { jbt: "OFFICER K3L", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "AJI SASONO BHAKTI": { jbt: "OFFICER KEUANGAN  PAJAK", spek: "Penyelia Dasar - Lenovo ThinkBook 14 G7 IML Core Ultra 1", aks: ["tas"] },
+    "AGUS SUHERMAN": { jbt: "HELPER FASILITAS", spek: "Design Notebook - Lenovo Legion 5 16 RTX4050 I7 14650HX", aks: ["tas"] },
+    "BAGAS": { jbt: "HELPER FASILITAS", spek: "Design Notebook - Lenovo Legion 5 16 RTX4050 I7 14650HX", aks: ["tas"] },
+    "JUNAEDI": { jbt: "HELPER HUMAS", spek: "Design Notebook - Lenovo Legion 5 16 RTX4050 I7 14650HX", aks: ["tas"] },
+    "ARRAHMAN": { jbt: "PS SISTEM INFORMASI", spek: "Notebook Pelaksana SIS - Lenovo LOQ 15IRX9 I5 13450HX", aks: ["tas"] },
+    "EJEN Z": { jbt: "HELPER SIS", spek: "Notebook Pelaksana SIS - Lenovo LOQ 15IRX9 I5 13450HX", aks: ["tas"] },
+    "DAYINTA ANDAYANI": { jbt: "PEL KESEKRETARIATAN & FASILITAS", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "DEDEN MAULANA": { jbt: "PS KEPEGAWAIAN & DIKLAT", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "DEDIN ADI HIDAYAT": { jbt: "PEL PBJ", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "DEVI RIVALDI": { jbt: "PS ANGGARAN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "FAJAR": { jbt: "HELPER AKUNTANSI", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "HATTA": { jbt: "HELPER AKUNTASNI", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "HENDRIK AGUSTIAN": { jbt: "PEL GUDANG", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "KUSTINAH": { jbt: "PEL GUDANG", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "LELA NURLELA": { jbt: "PEL KESEKRETARIATAN & FASILITAS", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "NANCY PUTRI RAMADHANI": { jbt: "PEL PBJ", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "NITA SEPTIANI": { jbt: "PEL PBJ", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "NOVA": { jbt: "HELPER SDM", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "RESTI": { jbt: "HELPER SDM", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "MUHAMMAD RIAN": { jbt: "PEL PBJ", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SAPTA RIZKA INTAN PRATAMI": { jbt: "PS AKUNTANSI", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SELA TRI YASMI": { jbt: "PEL KESEKRETARIATAN & FASILITAS", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SEPTI AGRIANI": { jbt: "PEL LINGKUNGAN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SOLEHAH JUMAILLAH": { jbt: "PEL KEUANGAN & PAJAK", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "VERANI NINDYA": { jbt: "PEL KEPEGAWAIAN & DIKLAT", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "WINDI YANTI": { jbt: "PEL KESEKRETARIATAN & FASILITAS", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "YOVI ALKAUSAR": { jbt: "PS CSR, HUMAS & KEAMANAN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "AHMAD KURNIAWAN": { jbt: "PS PREDICTIVE MAINTENANCE", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "ATIN NINDIA HARYATI": { jbt: "HELPER 1 ENG", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SITI WAHIDATUN CHASANAH": { jbt: "PEL SKM", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "PANDU WICAKSONO": { jbt: "PS PREDICTIVE MAINTENANCE", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "RD.RANGGA KUSUMA": { jbt: "PS PREDICTIVE MAINTENANCE", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SAEFUL ANWAR": { jbt: "PS PREDICTIVE MAINTENANCE", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "YANUAR FARISYI": { jbt: "PS PREDICTIVE MAINTENANCE", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "ARI SETIAWAN": { jbt: "PEL ADMINISTRASI EP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "TRIANTORO UTOMO": { jbt: "PS ADMINISTRASI EP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "MUHAMMAD IN\'AMUL WAFI": { jbt: "PEL ADMINISTRASI EP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "AHMAD YUSUF ALI": { jbt: "TECHNICIAN HAR MESIN BOP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "ANGGI DWIYANTO": { jbt: "TEKNISI SENIOR HAR INSTRUMEN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "DEPI SUTIARNA": { jbt: "TEKNISI SENIOR HAR LISTRIK BOP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "DONI HERBIYANTO": { jbt: "TECHNICIAN HAR MESIN BOP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "TS HM": { jbt: "TECHNICIAN HAR MESIN TURBIN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "EKA FENDI P.": { jbt: "TEKNISI SENIOR HAR INSTRUMEN BOP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "FAHRUL HIDAYATULLAH": { jbt: "TEKNISI SENIOR HAR INSTRUMEN BOP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "NUR ARIFIN ILYAS": { jbt: "TECHNICIAN HAR MESIN TURBIN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "IRFAN ADI PRASTIYA": { jbt: "TECHNICIAN HAR MESIN BOILER", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "PONCO ADI NUGROHO": { jbt: "TEKNISI HAR LISTRIK UNIT", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "M. RIZAL NUR JALALUDIN": { jbt: "TEKNISI SENIOR HAR LISTRIK BOP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "SIGIT DWI PERMANA (TS HL IP)": { jbt: "TEKNISI SENIOR HAR LISTRIK IP", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "KHAIRIAH HAFNI": { jbt: "PEL LINGKUNGAN", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "MUHAMAD RIZAL JAELANI": { jbt: "PEL K3", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "RUDI HARTONO": { jbt: "PS K3", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "MOCHAMAD ZAINAL ARIFIN": { jbt: "PS K3", spek: "Notebook Pelaksana - Lenovo IdeaPad Slim 5 OLED 14IRH10R", aks: ["tas"] },
+    "ABDUL BAIS SUPRIYADI": { jbt: "HELPER FASILITAS", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "DHEA": { jbt: "HELPER FASILITAS", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "FUJI ARYANI": { jbt: "HELPER PBJ", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "RIVAL": { jbt: "HELPER FASILITAS PERPUSTAKAAN", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "NENG WIDIASTUTI": { jbt: "HELPER FASILITAS", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "FIRDAUS": { jbt: "PS PREDICTIVE MAINTENANCE", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "SAEFUL SUBUR": { jbt: "HELPER 2", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "UUS R": { jbt: "EFISIENSI 1", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "DEDE SOBANI": { jbt: "TEKNISI SENIOR HLKI (HL)", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "MUHAMAD EVAN MAULANA": { jbt: "TEKNISI SENIOR MEKANIK ALBES", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "M. RIFAL Y": { jbt: "HELPER RENDAP EP", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "M. FATTAH SAOGI": { jbt: "HELPER RENDAL EP", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "SURIYANTO": { jbt: "TEKNISI SENIOR MEKANIK ALBES", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "MUHAMMAD TAUFIQ UMAR": { jbt: "TEKNISI SENIOR HLKI (KI)", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "YOGI JULIANSYAH": { jbt: "HELPER CHCR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "AZMAN HASAN": { jbt: "TECHNICIAN HAR MESIN TURBIN", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "DELVI ERMIS LUTVIANZA": { jbt: "TECHNICIAN HAR MESIN BOP", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "DENDI NURYADI": { jbt: "TEKNISI HAR INSTRUMEN UNIT", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "LISTI": { jbt: "HELPER OUTAGE", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "FATEKHUL MUIZ": { jbt: "TEKNISI HAR INSTRUMEN UNIT", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "RICKY DARMAWAN REZA FAUZI": { jbt: "TEKNISI HAR INSTRUMEN UNIT", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "RONAL MAULANA": { jbt: "HELPER OUTAGE", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "SIGIT DWI PERMANA (SERVER HL 1)": { jbt: "Server Pemeliharaan Listrik (common)", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "SIGIT DWI PERMANA (SERVER HL 2)": { jbt: "Server Pemeliharaan Listrik (common)", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "YOGA MUTIARA SINGGIH": { jbt: "TECHNICIAN HAR MESIN BOILER", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "ABDUH": { jbt: "PELAKSANA KIMIA JPR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "AIRUL AKBAR": { jbt: "PEL K3 UBP JPR (DAMKAR)", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "ALWAN HARIS": { jbt: "OPS CCR MCW", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "ARDI SEPTIAN": { jbt: "OPERATOR SENIOR AHCR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "~CCR 1": { jbt: "Komputer laporan Team Leader  unit 1 UBP JPR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "~CCR 2": { jbt: "Komputer laporan Team Leader  unit 2 UBP JPR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "~CCR 3": { jbt: "Komputer laporan Team Leader  unit 3 UBP JPR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "DINI DANIARTI": { jbt: "PEL KIMIA", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "EKO SAPUTRA": { jbt: "PEL KIMIA", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "GILANG AGUNG": { jbt: "OPERATOR SENIOR CHCR", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "NAPOLEON NAUFAL AZIZ": { jbt: "PEL K3", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "~PC NIAGA": { jbt: "PEL NIAGA (A, B, C, D)", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "RIVAL AHMAD KADARULAH": { jbt: "OPS CCR BOP", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+    "YANTI": { jbt: "HELPER NIAGA", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
+};
+
+const ITEMS = ["Hardware", "Sistem Operasi", "Software", "Kondisi Fisik"];
+
+window.onload = () => {
+    const list = document.getElementById("dataKaryawan");
+    Object.keys(DB).sort().forEach(n => {
+        const opt = document.createElement("option");
+        opt.value = n;
+        list.appendChild(opt);
+    });
+    const pct = document.getElementById("persen");
+    pct.add(new Option("Pilih...", ""));
+    for (let i = 100; i >= 10; i -= 10) pct.add(new Option(i + "%", i));
+    const tbody = document.getElementById("auditRows");
+    ITEMS.forEach(k => {
+        const id = k.toLowerCase().replace(/ /g, "");
+        tbody.innerHTML += `<tr>
+            <td class="fw-bold">${k}</td>
+            <td data-label="BAIK" class="text-center"><input class="form-check-input" type="radio" name="${id}" value="Baik" checked></td>
+            <td data-label="KURANG" class="text-center"><input class="form-check-input" type="radio" name="${id}" value="Kurang"></td>
+            <td data-label="RUSAK" class="text-center"><input class="form-check-input" type="radio" name="${id}" value="Rusak"></td>
+        </tr>`;
+    });
+};
+
+function handleAuto() {
+    const raw = document.getElementById("nama").value.trim();
+    const val = raw.toUpperCase();
+    const d = DB[val] || DB[raw];
+    if (d) {
+        document.getElementById("jabatan").value = d.jbt;
+        document.getElementById("spek").value = d.spek;
+        ["tas","mouse","keyboard","stylus"].forEach(a => {
+            document.getElementById(`aks_${a}`).checked = d.aks.includes(a);
+        });
+    } else {
+        document.getElementById("jabatan").value = "";
+        document.getElementById("spek").value = "";
+        ["tas","mouse","keyboard","stylus"].forEach(a => {
+            document.getElementById(`aks_${a}`).checked = false;
+        });
+    }
+}
+
+async function save() {
+    const rawVal = document.getElementById("nama").value.trim();
+    const n = rawVal.toUpperCase();
+    const d = DB[n] || DB[rawVal];
+    if (!d) { alert("⚠️ Nama tidak ditemukan dalam database!"); return; }
+    if (!document.getElementById("pernyataan").checked) { alert("⚠️ Centang konfirmasi terlebih dahulu!"); return; }
+    if (!document.getElementById("persen").value) { alert("⚠️ Pilih persentase kelayakan!"); return; }
+    const b = document.getElementById("btnSave");
+    b.disabled = true; b.innerText = "SEDANG MENGIRIM...";
+    const payload = {
+        ts: new Date().toLocaleString("id-ID"),
+        nama: rawVal,
+        jbt: document.getElementById("jabatan").value,
+        unit: document.getElementById("spek").value,
+        kondisi: ITEMS.map(k => {
+            const id = k.toLowerCase().replace(/ /g, "");
+            const v = document.querySelector(`input[name="${id}"]:checked`).value;
+            return `${k}: ${v}`;
+        }).join(" | "),
+        aks: ["tas","mouse","keyboard","stylus"].filter(a => document.getElementById(`aks_${a}`).checked).join(", "),
+        pct: document.getElementById("persen").value + "%",
+        ket: document.getElementById("ket_umum").value
+    };
+    try {
+        await fetch("https://script.google.com/macros/s/AKfycbx8FD8kx3z4y-ovwYA1XYfvCQ9SyMeJFbrhoRCXS_zSF5kjfK22O-BwWCQ2Hd47S4Dj/exec", {
+            method: "POST", mode: "no-cors", body: JSON.stringify(payload)
+        });
+        alert("✅ Laporan Berhasil Dikirim!");
+        location.reload();
+    } catch(e) {
+        alert("❌ Gagal Kirim!");
+        b.disabled = false; b.innerText = "Simpan Laporan Sekarang ✅";
+    }
+}
+</script>
+</body>
+</html>

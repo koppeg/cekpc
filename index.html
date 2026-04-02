@@ -389,21 +389,21 @@ async function save() {
     b.disabled = true; b.innerText = "SEDANG MENGIRIM...";
 // KODE BARU (PAKE YANG INI BRO)
 const payload = {
-    ts: new Date().toLocaleString("id-ID"),
-    nama: rawVal,
-    jbt: document.getElementById("jabatan").value,
-    unit: document.getElementById("spek").value,
-    
-    // Ini bagian yang memecah data jadi 4 kolom terpisah (E, F, G, H)
-    hw: document.querySelector('input[name="hardware"]:checked').value,      // Masuk ke kolom Hardware
-    os: document.querySelector('input[name="sistemoperasi"]:checked').value, // Masuk ke kolom Sistem Operasi
-    sw: document.querySelector('input[name="software"]:checked').value,      // Masuk ke kolom Software
-    fs: document.querySelector('input[name="kondisifisik"]:checked').value,  // Masuk ke kolom Kondisi Fisik
-    
-    aks: ["tas","mouse","keyboard","stylus"].filter(a => document.getElementById(`aks_${a}`).checked).join(", "),
-    pct: document.getElementById("persen").value + "%",
-    ket: document.getElementById("ket_umum").value
-};
+        ts: new Date().toLocaleString("id-ID"),
+        nama: rawVal,
+        jbt: document.getElementById("jabatan").value,
+        unit: document.getElementById("spek").value,
+        
+        // Pastikan nama variabel (hw, os, sw, fs) SAMA dengan Apps Script
+        hw: document.querySelector('input[name="hardware"]:checked').value,
+        os: document.querySelector('input[name="sistemoperasi"]:checked').value,
+        sw: document.querySelector('input[name="software"]:checked').value,
+        fs: document.querySelector('input[name="kondisifisik"]:checked').value,
+        
+        aks: ["tas","mouse","keyboard","stylus"].filter(a => document.getElementById(`aks_${a}`).checked).join(", "),
+        pct: document.getElementById("persen").value + "%",
+        ket: document.getElementById("ket_umum").value
+    };
     try {
         await fetch("https://script.google.com/macros/s/AKfycbxAaZnZwXNPz3uUKPiNIdUobKr4pd6VFx-RGIzuU43D5FdMxsIwbCddU_ylsWxu7e1j/exec", {
             method: "POST", mode: "no-cors", body: JSON.stringify(payload)

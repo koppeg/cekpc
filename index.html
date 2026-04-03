@@ -131,7 +131,19 @@
                 }
             });
         })();
-    </script>
+    
+function toggleManual(sel) {
+    const wrap = document.getElementById("persenManualWrap");
+    const inp  = document.getElementById("persen_manual");
+    if (sel.value === "manual") {
+        wrap.style.display = "block";
+        inp.focus();
+    } else {
+        wrap.style.display = "none";
+        inp.value = "";
+    }
+}
+</script>
     <!-- END PROTEKSI WEB -->
 
     <script>
@@ -249,9 +261,14 @@
             <div class="col-md-4">
                 <div class="p-3 bg-light rounded border border-secondary h-100">
                     <label class="form-label">Kelayakan (%)</label>
-                    <div class="input-group">
-                        <input type="number" id="persen" class="form-control" placeholder="0" min="1" max="100" style="border-radius:12px 0 0 12px; font-weight:700; color:var(--primary);" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>100)this.value=100; if(parseInt(this.value)<1&&this.value!=='')this.value=1;">
-                        <span class="input-group-text fw-bold" style="border-radius:0 12px 12px 0; background:#e8f0fe; color:var(--primary);">%</span>
+                    <select id="persen" class="form-select" onchange="toggleManual(this)"></select>
+                    <div id="persenManualWrap" style="display:none; margin-top:8px;">
+                        <div class="input-group">
+                            <input type="number" id="persen_manual" class="form-control" placeholder="Ketik angka..." min="0" max="999"
+                                style="border-radius:10px 0 0 10px; font-weight:700; color:var(--primary);"
+                                oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                            <span class="input-group-text fw-bold" style="border-radius:0 10px 10px 0; background:#e8f0fe; color:var(--primary);">%</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -490,6 +507,10 @@ window.onload = () => {
         opt.value = n;
         list.appendChild(opt);
     });
+    const pct = document.getElementById("persen");
+    pct.add(new Option("Pilih...", ""));
+    for (let i = 100; i >= 10; i -= 10) pct.add(new Option(i + "%", i));
+    pct.add(new Option("✏️ Ketik Manual...", "manual"));
     
     const tbody = document.getElementById("auditRows");
     ITEMS.forEach(k => {
@@ -537,7 +558,11 @@ async function save() {
     
     // 3. Validasi Checklist & Persentase
     if (!document.getElementById("pernyataan").checked) { alert("⚠️ Centang pernyataan dulu!"); return; }
-    if (!document.getElementById("persen").value || document.getElementById("persen").value < 1) { alert("⚠️ Isi persentase kelayakan!"); return; }
+    const isManual = document.getElementById("persen").value === "manual";
+    const manualVal = document.getElementById("persen_manual").value;
+    if (!document.getElementById("persen").value || (isManual && !manualVal)) {
+        alert("⚠️ Pilih atau ketik persentase kelayakan!"); return;
+    }
 
     const b = document.getElementById("btnSave");
     b.disabled = true; b.innerText = "SEDANG MENGIRIM...";
@@ -553,7 +578,7 @@ async function save() {
         sw: document.querySelector('input[name="software"]:checked').value,
         fs: document.querySelector('input[name="kondisifisik"]:checked').value,
         aks: ["tas","mouse","keyboard","stylus"].filter(a => document.getElementById(`aks_${a}`).checked).join(", "),
-        pct: document.getElementById("persen").value + "%",
+        pct: (document.getElementById("persen").value === "manual" ? document.getElementById("persen_manual").value : document.getElementById("persen").value) + "%",
         ket: document.getElementById("ket_umum").value
     };
 

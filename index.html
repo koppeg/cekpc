@@ -5,6 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Audit Aset IT - Official Database</title>
     
+    <!-- PROTEKSI WEB -->
+    <style>
+        #protect-toast {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            z-index: 99999;
+            box-shadow: 0 6px 30px rgba(0,0,0,0.4);
+            border: 1px solid #f39c12;
+            letter-spacing: 0.5px;
+            animation: fadeInDown 0.3s ease;
+            pointer-events: none;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateX(-50%) translateY(-15px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        #protect-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 99998;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #protect-overlay.show { display: flex; }
+        #protect-overlay .box {
+            background: #1e293b;
+            border: 1px solid #f39c12;
+            border-radius: 20px;
+            padding: 40px 50px;
+            text-align: center;
+            color: #fff;
+            font-family: sans-serif;
+            max-width: 360px;
+        }
+        #protect-overlay .icon { font-size: 48px; margin-bottom: 12px; }
+        #protect-overlay h2 { color: #f39c12; font-size: 1.3rem; margin-bottom: 8px; }
+        #protect-overlay p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+    </style>
+
+    <!-- Toast notifikasi -->
+    <div id="protect-toast">🔒 Web Ini Dilindungi — Aksi Diblokir</div>
+
+    <!-- Overlay peringatan penuh -->
+    <div id="protect-overlay">
+        <div class="box">
+            <div class="icon">🛡️</div>
+            <h2>Web Ini Dilindungi</h2>
+            <p>Inspect Element & Developer Tools tidak diperbolehkan di halaman ini.</p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // --- Tampilkan toast sementara ---
+            function showToast() {
+                const t = document.getElementById('protect-toast');
+                if (!t) return;
+                t.style.display = 'block';
+                setTimeout(() => { t.style.display = 'none'; }, 3000);
+            }
+
+            // --- Block klik kanan ---
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showToast();
+            });
+
+            // --- Block keyboard shortcut DevTools ---
+            document.addEventListener('keydown', function(e) {
+                // F12
+                if (e.key === 'F12') { e.preventDefault(); showToast(); return; }
+                // Ctrl+Shift+I / Cmd+Opt+I
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i')) { e.preventDefault(); showToast(); return; }
+                // Ctrl+Shift+J / Cmd+Opt+J (console)
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.key === 'j')) { e.preventDefault(); showToast(); return; }
+                // Ctrl+Shift+C (element picker)
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c')) { e.preventDefault(); showToast(); return; }
+                // Ctrl+U (view source)
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u')) { e.preventDefault(); showToast(); return; }
+                // Ctrl+S (save page)
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's')) { e.preventDefault(); showToast(); return; }
+            });
+
+            // --- Deteksi DevTools terbuka via ukuran window (desktop) ---
+            var devtoolsOpen = false;
+            function checkDevTools() {
+                var overlay = document.getElementById('protect-overlay');
+                if (!overlay) return;
+                var widthThreshold = window.outerWidth - window.innerWidth > 160;
+                var heightThreshold = window.outerHeight - window.innerHeight > 160;
+                if (widthThreshold || heightThreshold) {
+                    if (!devtoolsOpen) {
+                        devtoolsOpen = true;
+                        overlay.classList.add('show');
+                    }
+                } else {
+                    if (devtoolsOpen) {
+                        devtoolsOpen = false;
+                        overlay.classList.remove('show');
+                    }
+                }
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                setInterval(checkDevTools, 1000);
+            });
+
+            // --- Block select-all teks ---
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
+                    e.preventDefault();
+                }
+            });
+        })();
+    </script>
+    <!-- END PROTEKSI WEB -->
+
     <script>
       const waktuMulai = new Date('2026-04-01 08:00:00'); 
       const waktuSelesai = new Date('2026-04-02 17:00:00');

@@ -13,11 +13,11 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1e293b;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: #fff;
             padding: 14px 28px;
             border-radius: 50px;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 14px;
             font-weight: 700;
             z-index: 99999;
@@ -49,7 +49,7 @@
             padding: 40px 50px;
             text-align: center;
             color: #fff;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 360px;
         }
         #protect-overlay .icon { font-size: 48px; margin-bottom: 12px; }
@@ -57,10 +57,7 @@
         #protect-overlay p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
     </style>
 
-    <!-- Toast notifikasi -->
     <div id="protect-toast">🔒 Web Ini Dilindungi — Aksi Diblokir</div>
-
-    <!-- Overlay peringatan penuh -->
     <div id="protect-overlay">
         <div class="box">
             <div class="icon">🛡️</div>
@@ -71,37 +68,24 @@
 
     <script>
         (function() {
-            // --- Tampilkan toast sementara ---
             function showToast() {
                 const t = document.getElementById('protect-toast');
                 if (!t) return;
                 t.style.display = 'block';
                 setTimeout(() => { t.style.display = 'none'; }, 3000);
             }
-
-            // --- Block klik kanan ---
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 showToast();
             });
-
-            // --- Block keyboard shortcut DevTools ---
             document.addEventListener('keydown', function(e) {
-                // F12
                 if (e.key === 'F12') { e.preventDefault(); showToast(); return; }
-                // Ctrl+Shift+I / Cmd+Opt+I
                 if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i')) { e.preventDefault(); showToast(); return; }
-                // Ctrl+Shift+J / Cmd+Opt+J (console)
                 if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.key === 'j')) { e.preventDefault(); showToast(); return; }
-                // Ctrl+Shift+C (element picker)
                 if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c')) { e.preventDefault(); showToast(); return; }
-                // Ctrl+U (view source)
                 if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u')) { e.preventDefault(); showToast(); return; }
-                // Ctrl+S (save page)
                 if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's')) { e.preventDefault(); showToast(); return; }
             });
-
-            // --- Deteksi DevTools terbuka via ukuran window (desktop) ---
             var devtoolsOpen = false;
             function checkDevTools() {
                 var overlay = document.getElementById('protect-overlay');
@@ -123,28 +107,25 @@
             document.addEventListener('DOMContentLoaded', function() {
                 setInterval(checkDevTools, 1000);
             });
-
-            // --- Block select-all teks ---
             document.addEventListener('selectstart', function(e) {
                 if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
                     e.preventDefault();
                 }
             });
         })();
-    
-function toggleManual(sel) {
-    const wrap = document.getElementById("persenManualWrap");
-    const inp  = document.getElementById("persen_manual");
-    if (sel.value === "manual") {
-        wrap.style.display = "block";
-        inp.focus();
-    } else {
-        wrap.style.display = "none";
-        inp.value = "";
-    }
-}
-</script>
-    <!-- END PROTEKSI WEB -->
+        
+        function toggleManual(sel) {
+            const wrap = document.getElementById("persenManualWrap");
+            const inp  = document.getElementById("persen_manual");
+            if (sel.value === "manual") {
+                wrap.style.display = "block";
+                inp.focus();
+            } else {
+                wrap.style.display = "none";
+                inp.value = "";
+            }
+        }
+    </script>
 
     <script>
       const waktuMulai = new Date('2026-04-01 08:00:00'); 
@@ -154,13 +135,13 @@ function toggleManual(sel) {
 
       if (sekarang < waktuMulai || sekarang > waktuSelesai) {
           document.documentElement.innerHTML = `
-            <div style="display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; text-align:center; background:#121212; color:#fff; flex-direction:column;">
-                <div style="border:1px solid #444; padding:30px; border-radius:15px; background:#1e1e1e;">
-                    <h1 style="color:#f39c12;">Akses Belum Dibuka / Sudah Berakhir</h1>
-                    <p>Web ini hanya aktif pada:</p>
-                    <p style="color:#00ff88;">${waktuMulai.toLocaleString('id-ID', opsi)} WIB</p>
-                    <p>sampai</p>
-                    <p style="color:#ff4d4d;">${waktuSelesai.toLocaleString('id-ID', opsi)} WIB</p>
+            <div style="display:flex; justify-content:center; align-items:center; height:100vh; font-family:'Segoe UI', sans-serif; text-align:center; background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color:#fff; flex-direction:column;">
+                <div style="border:2px solid #f39c12; padding:40px 50px; border-radius:20px; background:rgba(30, 41, 59, 0.8); backdrop-filter:blur(10px);">
+                    <h1 style="color:#f39c12; font-size:2rem; margin-bottom:20px;">⏰ Akses Belum Dibuka / Sudah Berakhir</h1>
+                    <p style="color:#cbd5e1; margin:10px 0;">Web ini hanya aktif pada:</p>
+                    <p style="color:#10b981; font-size:1.2rem; font-weight:700; margin:15px 0;">${waktuMulai.toLocaleString('id-ID', opsi)} WIB</p>
+                    <p style="color:#cbd5e1; margin:10px 0;">sampai</p>
+                    <p style="color:#ef4444; font-size:1.2rem; font-weight:700; margin:15px 0;">${waktuSelesai.toLocaleString('id-ID', opsi)} WIB</p>
                 </div>
             </div>
           `;
@@ -169,40 +150,620 @@ function toggleManual(sel) {
     </script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        :root { --primary: #2563eb; --bg: #f1f5f9; --card: #ffffff; --text: #1e293b; --accent: #f8fafc; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; padding: 20px 10px; }
-        .container-custom { max-width: 1000px; margin: 0 auto; }
-        .card-premium { background: var(--card); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 35px; border: 1px solid #e2e8f0; }
-        .form-label { font-size: 0.75rem; letter-spacing: 0.5px; color: #64748b; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; }
-        .form-control-read { background-color: #f8fafc !important; font-weight: 700; color: var(--primary) !important; border: 1px solid #e2e8f0; }
-        .form-select, .form-control { border-radius: 12px; padding: 12px 15px; border: 1px solid #cbd5e1; }
-        .table-container { border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 25px; background: #fff; }
-        .table thead { background-color: #1e293b; color: white; }
-        .table th { font-size: 0.75rem; text-transform: uppercase; padding: 18px; text-align: center; }
-        .table td { padding: 20px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-        .form-check-input { width: 1.6em; height: 1.6em; cursor: pointer; border: 2px solid #cbd5e1; }
-        .form-check-input:checked { background-color: var(--primary); border-color: var(--primary); }
-        .btn-send { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 700; width: 100%; transition: 0.2s; text-transform: uppercase; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --primary: #7c3aed;
+            --primary-light: #a78bfa;
+            --primary-dark: #6d28d9;
+            --accent: #ec4899;
+            --accent-light: #f472b6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --card: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--gradient-dark);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px 15px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container-custom {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        .card-premium {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.2),
+                0 0 1px rgba(255, 255, 255, 0.3) inset;
+            padding: 45px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-premium::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 350px;
+            height: 350px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            opacity: 0.06;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-30px) translateX(-20px); }
+        }
+
+        .card-premium::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 350px;
+            height: 350px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            opacity: 0.06;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        .card-premium > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .header-section h4 {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.1rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .header-section .subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .form-label {
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 900;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            border-radius: 14px;
+            padding: 13px 16px;
+            border: 2px solid var(--border);
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+            background: rgba(255, 255, 255, 0.95);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .form-control-read {
+            background-color: rgba(248, 250, 252, 0.95) !important;
+            font-weight: 700;
+            color: var(--primary) !important;
+            border: 2px solid var(--border) !important;
+            cursor: not-allowed;
+        }
+
+        .form-group-wrapper {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.06) 0%, rgba(236, 72, 153, 0.06) 100%);
+            padding: 28px;
+            border-radius: 18px;
+            border: 1.5px solid rgba(124, 58, 237, 0.15);
+            margin-bottom: 22px;
+        }
+
+        .table-container {
+            border-radius: 18px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            margin-bottom: 32px;
+            background: var(--card);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .table th {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            padding: 22px 18px;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 900;
+            border: none;
+        }
+
+        .table td {
+            padding: 20px 18px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table td:first-child {
+            text-align: left;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(124, 58, 237, 0.04);
+            transform: scale(1.005);
+        }
+
+        .form-check-input {
+            width: 1.9em;
+            height: 1.9em;
+            cursor: pointer;
+            border: 2.5px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: var(--card);
+        }
+
+        .form-check-input:hover {
+            border-color: var(--primary);
+            transform: scale(1.08);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+        }
+
+        .form-check-input:checked {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
+            border-radius: 16px;
+            border: 2px solid rgba(124, 58, 237, 0.18);
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            margin-top: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 700;
+            font-size: 0.96rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .btn-send {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 900;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 1.02rem;
+            box-shadow: 
+                0 15px 45px rgba(124, 58, 237, 0.35),
+                0 0 20px rgba(236, 72, 153, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-send::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-send:hover:not(:disabled)::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-send:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 20px 60px rgba(124, 58, 237, 0.45),
+                0 0 30px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.65; }
+            50% { opacity: 0.8; }
+        }
+
+        .statement-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.07) 0%, rgba(236, 72, 153, 0.07) 100%);
+            border-radius: 18px;
+            padding: 22px 28px;
+            margin-bottom: 28px;
+            border: 1.5px solid rgba(124, 58, 237, 0.22);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.08), 0 1.5px 0 rgba(255,255,255,0.7) inset;
+            transition: all 0.3s ease;
+        }
+
+        .statement-box:hover {
+            border-color: rgba(124, 58, 237, 0.38);
+            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.13);
+        }
+
+        .statement-box .form-check-label {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.5;
+            letter-spacing: 0.4px;
+        }
+
+        .statement-inner {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .statement-inner .form-check-input {
+            flex-shrink: 0;
+            width: 1.9em;
+            height: 1.9em;
+            margin: 0;
+            border-radius: 8px;
+            border: 2.5px solid rgba(124, 58, 237, 0.35);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(255,255,255,0.9);
+        }
+
+        .statement-inner .form-check-input:checked {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        .statement-inner .form-check-input:hover {
+            border-color: var(--primary);
+            transform: scale(1.08);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+
+        .statement-label-text {
+            font-size: 0.88rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.5;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 576px) {
+            .statement-box {
+                padding: 16px 18px;
+            }
+            .statement-inner {
+                gap: 14px;
+            }
+            .statement-label-text {
+                font-size: 0.78rem;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        .row { margin-bottom: 0; }
+        .col-md-4, .col-md-8 { margin-bottom: 20px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .card-premium {
+                padding: 40px;
+                border-radius: 28px;
+            }
+
+            .header-section h4 {
+                font-size: 1.9rem;
+            }
+        }
+
         @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .card-premium {
+                padding: 32px;
+                border-radius: 24px;
+            }
+
+            .header-section h4 {
+                font-size: 1.6rem;
+            }
+
+            .header-section .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .form-control, .form-select {
+                padding: 11px 14px;
+                font-size: 0.88rem;
+            }
+
+            .form-label {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+
             .table thead { display: none; }
-            .table tr { display: block; margin-bottom: 20px; border: 1px solid #eee; border-radius: 15px; padding: 10px; }
-            .table td { display: flex; justify-content: space-between; align-items: center; border: none; padding: 12px 5px; }
-            .table td:first-child { font-weight: 800; color: var(--primary); display: block; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px; }
-            .table td:not(:first-child)::before { content: attr(data-label); font-weight: 700; color: #94a3b8; font-size: 0.7rem; }
+
+            .table tr {
+                display: block;
+                margin-bottom: 16px;
+                border: 2px solid var(--border);
+                border-radius: 12px;
+                padding: 16px;
+                background: linear-gradient(135deg, rgba(124, 58, 237, 0.02) 0%, transparent 100%);
+            }
+
+            .table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border: none;
+                padding: 12px 0;
+                text-align: right;
+            }
+
+            .table td:first-child {
+                font-weight: 800;
+                color: var(--primary);
+                display: block;
+                border-bottom: 2px solid var(--border);
+                margin-bottom: 12px;
+                text-align: left;
+                padding-bottom: 10px;
+            }
+
+            .table td:not(:first-child)::before {
+                content: attr(data-label);
+                font-weight: 800;
+                color: var(--text-light);
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .checkbox-group { gap: 14px; }
+            .info-box { padding: 18px; }
+            .form-group-wrapper { padding: 22px; }
+            .btn-send { padding: 14px; font-size: 0.95rem; }
+            .statement-box { padding: 18px; }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 16px 10px;
+            }
+
+            .card-premium {
+                padding: 24px;
+                border-radius: 20px;
+            }
+
+            .header-section {
+                margin-bottom: 28px;
+                padding-bottom: 20px;
+            }
+
+            .header-section h4 {
+                font-size: 1.35rem;
+            }
+
+            .header-section .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .form-control, .form-select {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+            }
+
+            .form-label {
+                font-size: 0.65rem;
+            }
+
+            .btn-send {
+                padding: 12px;
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+
+            .checkbox-group { 
+                flex-direction: column; 
+                gap: 10px; 
+            }
+
+            .form-group-wrapper { 
+                padding: 18px; 
+                margin-bottom: 18px;
+            }
+
+            .table tr { padding: 12px; }
+            .table td { padding: 10px 0; }
+            .statement-box { padding: 14px; }
+            .info-box { padding: 14px; }
+            .form-check-input { width: 1.7em; height: 1.7em; }
+        }
+
+        @media (max-width: 360px) {
+            .card-premium {
+                padding: 18px;
+            }
+
+            .header-section h4 {
+                font-size: 1.2rem;
+            }
+
+            .checkbox-item label {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container-custom">
     <div class="card-premium">
-        <h4 class="text-center fw-bold mb-1">Laporan Notebook & PC Koppeg Samaratu</h4>
-        <p class="text-center text-muted small mb-4">Sistem Inventaris Otomatis - PT PLN Indonesia Power</p>
+        <div class="header-section">
+            <h4>📊 Laporan Notebook & PC Koppeg Samaratu</h4>
+            <p class="subtitle">Sistem Inventaris Otomatis - PT PLN Indonesia Power</p>
+        </div>
         
-        <div class="row g-3">
-            <div class="col-12 mb-3">
-                <label class="form-label">Periode Laporan Bulan</label>
-                <select id="periode" class="form-select fw-bold" style="color: var(--primary); border: 2px solid var(--primary);">
+        <div class="form-section">
+            <div class="form-group-wrapper">
+                <label class="form-label">📅 Periode Laporan</label>
+                <select id="periode" class="form-select">
                     <option value="">-- Pilih Periode Bulan --</option>
                     <option value="1 Jan - 31 Jan 2026">Januari 2026</option>
                     <option value="1 Feb - 28 Feb 2026">Februari 2026</option>
@@ -219,31 +780,33 @@ function toggleManual(sel) {
                 </select>
             </div>
 
-            <div class="col-md-4">
-                <label class="form-label">Nama Penanggung Jawab</label>
-                <input list="dataKaryawan" id="nama" class="form-control" placeholder="Ketik Nama..." oninput="handleAuto()">
-                <datalist id="dataKaryawan"></datalist>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Jabatan</label>
-                <input type="text" id="jabatan" class="form-control form-control-read" readonly placeholder="-">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Spesifikasi Unit</label>
-                <input type="text" id="spek" class="form-control form-control-read" readonly placeholder="-">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">No Inventaris</label>
-                <input type="text" id="inventaris" class="form-control form-control-read" readonly placeholder="-">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">👤 Nama Penanggung Jawab</label>
+                    <input list="dataKaryawan" id="nama" class="form-control" placeholder="Ketik nama..." oninput="handleAuto()">
+                    <datalist id="dataKaryawan"></datalist>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">💼 Jabatan</label>
+                    <input type="text" id="jabatan" class="form-control form-control-read" readonly placeholder="-">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">🖥️ Spesifikasi Unit</label>
+                    <input type="text" id="spek" class="form-control form-control-read" readonly placeholder="-">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">📦 No Inventaris</label>
+                    <input type="text" id="inventaris" class="form-control form-control-read" readonly placeholder="-">
+                </div>
             </div>
         </div>
 
-        <div class="table-container mt-4">
+        <div class="table-container">
             <table class="table mb-0">
                 <thead>
                     <tr>
-                        <th class="text-start">Komponen Audit</th>
-                        <th>BAIK</th><th>KURANG</th><th>RUSAK</th>
+                        <th class="text-start">✓ Komponen Audit</th>
+                        <th>✅ BAIK</th><th>⚠️ KURANG</th><th>❌ RUSAK</th>
                     </tr>
                 </thead>
                 <tbody id="auditRows"></tbody>
@@ -252,48 +815,58 @@ function toggleManual(sel) {
 
         <div class="row g-3 mb-4">
             <div class="col-md-8">
-                <div class="p-3 bg-light rounded border border-secondary shadow-sm">
-                    <label class="form-label d-block mb-3">Aksesoris Terdeteksi (Otomatis)</label>
-                    <div class="d-flex flex-wrap gap-4">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_tas" disabled><label class="ms-1 fw-bold small">Tas</label></div>
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_mouse" disabled><label class="ms-1 fw-bold small">Mouse</label></div>
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_keyboard" disabled><label class="ms-1 fw-bold small">Keyboard</label></div>
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="aks_stylus" disabled><label class="ms-1 fw-bold small">Stylus Pen</label></div>
+                <div class="info-box">
+                    <label class="form-label">🎒 Aksesoris Terdeteksi</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" id="aks_tas" disabled>
+                            <label for="aks_tas">Tas</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" id="aks_mouse" disabled>
+                            <label for="aks_mouse">Mouse</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" id="aks_keyboard" disabled>
+                            <label for="aks_keyboard">Keyboard</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input class="form-check-input" type="checkbox" id="aks_stylus" disabled>
+                            <label for="aks_stylus">Stylus Pen</label>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-3 bg-light rounded border border-secondary h-100">
-                    <label class="form-label">Kelayakan (%)</label>
+                <div class="info-box">
+                    <label class="form-label">📊 Kelayakan (%)</label>
                     <select id="persen" class="form-select" onchange="toggleManual(this)"></select>
-                    <div id="persenManualWrap" style="display:none; margin-top:8px;">
+                    <div id="persenManualWrap" style="display:none; margin-top:12px;">
                         <div class="input-group">
                             <input type="number" id="persen_manual" class="form-control" placeholder="Ketik angka..." min="0" max="999"
-                                style="border-radius:10px 0 0 10px; font-weight:700; color:var(--primary);"
+                                style="border-radius:10px 0 0 10px; font-weight:700; color:var(--primary); border: 2px solid var(--border);"
                                 oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                            <span class="input-group-text fw-bold" style="border-radius:0 10px 10px 0; background:#e8f0fe; color:var(--primary);">%</span>
+                            <span class="input-group-text fw-bold" style="border-radius:0 10px 10px 0; border: 2px solid var(--border); background: rgba(124, 58, 237, 0.1); color:var(--primary);">%</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mb-4">
-            <label class="form-label">Catatan Tambahan (Opsional)</label>
-            <textarea id="ket_umum" class="form-control" rows="2" placeholder="Tulis catatan jika ada..."></textarea>
+        <div class="form-section">
+            <label class="form-label">📝 Catatan Tambahan</label>
+            <textarea id="ket_umum" class="form-control" rows="2" placeholder="Tulis catatan jika ada..." style="border-radius: 14px; border: 2px solid var(--border); resize: vertical;"></textarea>
         </div>
 
-        <div class="p-3 mb-4 bg-light rounded border-start border-4 border-primary shadow-sm">
-            <div class="d-flex align-items-start">
-                <div class="pt-1">
-                    <input class="form-check-input me-3" type="checkbox" id="pernyataan" style="min-width: 1.6em; cursor: pointer;">
-                </div>
-                <label class="form-check-label small fw-bold text-dark lh-sm" for="pernyataan" style="cursor: pointer;">
-                    SAYA MENYATAKAN BAHWA DATA DI ATAS ADALAH BENAR
+        <div class="statement-box">
+            <div class="statement-inner">
+                <input class="form-check-input" type="checkbox" id="pernyataan">
+                <label class="statement-label-text" for="pernyataan">
+                    ✓ Saya menyatakan bahwa data di atas adalah benar dan dapat dipertanggungjawabkan sepenuhnya
                 </label>
             </div>
         </div>
-        <button onclick="save()" id="btnSave" class="btn btn-send">Simpan Laporan Sekarang ✅</button>
+        <button onclick="save()" id="btnSave" class="btn btn-send">✅ SIMPAN LAPORAN SEKARANG</button>
     </div>
 </div>
 
@@ -502,209 +1075,7 @@ const DB = {
     "YANTI": { jbt: "HELPER NIAGA", spek: "PC - Lenovo IdeaCente AIO 3 Touch 24IRH9", aks: ["keyboard", "mouse"] },
 };
 
-const INV_MAP = {
-    "BOWO PRAMONO":"MNJ-01/KS-JPR/2026",
-    "AGUS SETIAWAN":"MNJ-02/KS-JPR/2026",
-    "ANGGA PRADIPTA":"MNJ-03/KS-JPR/2026",
-    "DENI NUGRAHA":"MNJ-04/KS-JPR/2026",
-    "ARMAN SUSANTO":"MNJ-05/KS-JPR/2026",
-    "IRAWAN PARMAPUTRA":"MNJ-06/KS-JPR/2026",
-    "WILDANUL HAKIM":"MNJ-07/KS-JPR/2026",
-    "ANDRA BAYU PS":"PA-01/KS-JPR/2026",
-    "ANDY APRIANSYAH":"PA-02/KS-JPR/2026",
-    "ASEP TRESNA LH":"PA-03/KS-JPR/2026",
-    "HANDARIANSAH":"PA-04/KS-JPR/2026",
-    "ADITYA MAHARDHIKA":"PA-05/KS-JPR/2026",
-    "AGUNG PRASETYO":"PA-06/KS-JPR/2026",
-    "ALAM TRI YUDHA":"PA-07/KS-JPR/2026",
-    "ANDIK HERMAWANTO":"PA-08/KS-JPR/2026",
-    "ARIS CAHYONO":"PA-09/KS-JPR/2026",
-    "DADANG SAHRONI":"PA-10/KS-JPR/2026",
-    "DIAZ ZAKARIA":"PA-11/KS-JPR/2026",
-    "EDHY SANTOSO":"PA-12/KS-JPR/2026",
-    "FIRZA MULDANI":"PA-13/KS-JPR/2026",
-    "HERU HERMAWAN":"PA-14/KS-JPR/2026",
-    "HERY IRAWAN":"PA-15/KS-JPR/2026",
-    "IWAN HARDIKA":"PA-16/KS-JPR/2026",
-    "REMON YONASA HT":"PA-17/KS-JPR/2026",
-    "RONANDA ADITYA PN":"PA-18/KS-JPR/2026",
-    "SATRIA RIZKI":"PA-19/KS-JPR/2026",
-    "SUDIRMAN BE":"PA-20/KS-JPR/2026",
-    "SUDIRMAN BS":"PA-21/KS-JPR/2026",
-    "ADI AHMAD W":"PA-22/KS-JPR/2026",
-    "ARIE NOVIYANTO":"PA-23/KS-JPR/2026",
-    "AR\'RAHMANSYAH MUHAMAD":"PA-24/KS-JPR/2026",
-    "DANDI SUKMARAHADI":"PA-25/KS-JPR/2026",
-    "FAJAR SETIYONO":"PA-26/KS-JPR/2026",
-    "HALIM":"PA-27/KS-JPR/2026",
-    "SIGIT DWI PERMANA":"PA-28/KS-JPR/2026",
-    "ARUM SAKTI P":"PA-29/KS-JPR/2026",
-    "HANDOYO":"PA-30/KS-JPR/2026",
-    "LEO NARDY":"PA-31/KS-JPR/2026",
-    "MU\'RIDIN":"PA-32/KS-JPR/2026",
-    "ABNUR ODIRI":"PA-33/KS-JPR/2026",
-    "WAHYUDIN SIDIK":"PA-34/KS-JPR/2026",
-    "RAHWINDHY MAZHAR CHASNANDA":"PAD-01/KS-JPR/2026",
-    "ARI DWI CAHYONO":"PD-01/KS-JPR/2026",
-    "MOHAMMAD BAGUS OKKY":"PD-02/KS-JPR/2026",
-    "TUMPAL SAMOSIR":"PD-03/KS-JPR/2026",
-    "RIO RINARWANDI":"PD-04/KS-JPR/2026",
-    "MUHAMMAD IQBAL FIRDAUS":"PD-05/KS-JPR/2026",
-    "IRFAN":"PD-06/KS-JPR/2026",
-    "MUCHAMAD RIVALDI FK":"PD-07/KS-JPR/2026",
-    "ROBERT DAVID CARNIAGO":"PD-08/KS-JPR/2026",
-    "WASIS WICAKSONO":"PD-09/KS-JPR/2026",
-    "FK YUDO WICAKSONO SAPUTRO":"PD-10/KS-JPR/2026",
-    "AGUS KURNIAWAN":"PD-11/KS-JPR/2026",
-    "AGUS TOMI":"PD-12/KS-JPR/2026",
-    "MASEDONIUS ANDREW PRADANA U":"PD-13/KS-JPR/2026",
-    "BOBBY PRAYOGO":"PD-14/KS-JPR/2026",
-    "HAKIM SATYADI":"PD-15/KS-JPR/2026",
-    "MUHAMMAD SYUKRI HARDIANTO":"PD-16/KS-JPR/2026",
-    "HENDRI ASRIANDI":"PD-17/KS-JPR/2026",
-    "PRIMA RADIANSYAH":"PD-18/KS-JPR/2026",
-    "QOLIS FANDRA IRAWAN":"PD-19/KS-JPR/2026",
-    "RIZKY TRI SAPUTRO":"PD-20/KS-JPR/2026",
-    "TEGUH PURNAMA":"PD-21/KS-JPR/2026",
-    "JOSEPH WILANTARA GULO":"PD-22/KS-JPR/2026",
-    "BAMBANG KURNIAWAN":"PD-23/KS-JPR/2026",
-    "BAYU SAPTA NUGRAHA":"PD-24/KS-JPR/2026",
-    "NICO DWI KURNIADI":"PD-25/KS-JPR/2026",
-    "YAHYA ZULTHONI":"PD-26/KS-JPR/2026",
-    "ADITYA WIDAGDO PUTRA":"PD-27/KS-JPR/2026",
-    "ARDI SURYADINATA":"PD-28/KS-JPR/2026",
-    "BAGUS VANY SETIAWAN":"PD-29/KS-JPR/2026",
-    "BOBBY LUMBAN TOBING":"PD-30/KS-JPR/2026",
-    "MUHAMMAD NUR CHAMDANI":"PD-31/KS-JPR/2026",
-    "FAHRUDY UTOMO":"PD-32/KS-JPR/2026",
-    "FAJAR GUMILANG":"PD-33/KS-JPR/2026",
-    "MUHAMMAD FARRAS ILHAM":"PD-34/KS-JPR/2026",
-    "FERI SAPUTRA":"PD-35/KS-JPR/2026",
-    "HERBERT PANONDANG SINAGA":"PD-36/KS-JPR/2026",
-    "RAHMAT FAJAR KURNIAWAN":"PD-37/KS-JPR/2026",
-    "RAINHOLD TIGOR PARLINDUNGAN BUTARBUTAR":"PD-38/KS-JPR/2026",
-    "RIDHO DWI SAPUTRA":"PD-39/KS-JPR/2026",
-    "RIYAN JAMARIF":"PD-40/KS-JPR/2026",
-    "MUHAMAD SHOBIRIN":"PD-41/KS-JPR/2026",
-    "TRI BUDIMAN JABARTI":"PD-42/KS-JPR/2026",
-    "YOGI LISTIARGA":"PD-43/KS-JPR/2026",
-    "DUGARRY FIRMANSYAH HARIYANTO":"PD-44/KS-JPR/2026",
-    "AJI UNGGUL PRASETIA":"PD-45/KS-JPR/2026",
-    "ADDY MUHAMMAD YASIR ROZIKUN":"PD-46/KS-JPR/2026",
-    "DANANG HUTAMA":"PD-47/KS-JPR/2026",
-    "FADHOLI":"PD-48/KS-JPR/2026",
-    "FAJRI EKA MAULDY":"PD-49/KS-JPR/2026",
-    "GALIH TRI LAKSANA":"PD-50/KS-JPR/2026",
-    "GANDA ISNUARDANA":"PD-51/KS-JPR/2026",
-    "GARCIA VALDA UNSO":"PD-52/KS-JPR/2026",
-    "GENTA IRIANA":"PD-53/KS-JPR/2026",
-    "HADI HANNAR WIRYATMO":"PD-54/KS-JPR/2026",
-    "ILHAM KHRISNA NUGRAHA":"PD-55/KS-JPR/2026",
-    "ISMU MUBAROK":"PD-56/KS-JPR/2026",
-    "KUKUH SATRIYANTO":"PD-57/KS-JPR/2026",
-    "MENARA HUTAGAOL":"PD-58/KS-JPR/2026",
-    "NANDA PUJI ARIANTO":"PD-59/KS-JPR/2026",
-    "AHMAD NOPRAN ZULPIKAR":"PD-60/KS-JPR/2026",
-    "KURNIAWAN SAKTI PRATAMA":"PD-61/KS-JPR/2026",
-    "SARDI":"PD-62/KS-JPR/2026",
-    "MAULANA SIGIT WICAKSONO":"PD-63/KS-JPR/2026",
-    "IDAM KHOLID":"PD-64/KS-JPR/2026",
-    "TAUFIK KURNIAWAN":"PD-65/KS-JPR/2026",
-    "SYAFRUDIN":"PD-66/KS-JPR/2026",
-    "RIAN RAMADHAN":"PD-67/KS-JPR/2026",
-    "AJI SASONO BHAKTI":"PD-68/KS-JPR/2026",
-    "AGUS SUHERMAN":"DS-01/KS-JPR/2026",
-    "BAGAS":"DS-02/KS-JPR/2026",
-    "JUNAEDI":"DS-03/KS-JPR/2026",
-    "ARRAHMAN":"PLSIS-1/KS-JPR/2026",
-    "EJEN Z":"PLSIS-2/KS-JPR/2026",
-    "DAYINTA ANDAYANI":"PL-01/KS-JPR/2026",
-    "DEDEN MAULANA":"PL-02/KS-JPR/2026",
-    "DEDIN ADI HIDAYAT":"PL-03/KS-JPR/2026",
-    "DEVI RIVALDI":"PL-04/KS-JPR/2026",
-    "FAJAR":"PL-05/KS-JPR/2026",
-    "HATTA":"PL-06/KS-JPR/2026",
-    "HENDRIK AGUSTIAN":"PL-07/KS-JPR/2026",
-    "KUSTINAH":"PL-08/KS-JPR/2026",
-    "LELA NURLELA":"PL-09/KS-JPR/2026",
-    "NANCY PUTRI RAMADHANI":"PL-10/KS-JPR/2026",
-    "NITA SEPTIANI":"PL-11/KS-JPR/2026",
-    "NOVA":"PL-12/KS-JPR/2026",
-    "RESTI":"PL-13/KS-JPR/2026",
-    "MUHAMMAD RIAN":"PL-14/KS-JPR/2026",
-    "SAPTA RIZKA INTAN PRATAMI":"PL-15/KS-JPR/2026",
-    "SELA TRI YASMI":"PL-16/KS-JPR/2026",
-    "SEPTI AGRIANI":"PL-17/KS-JPR/2026",
-    "SOLEHAH JUMAILLAH":"PL-18/KS-JPR/2026",
-    "VERANI NINDYA":"PL-19/KS-JPR/2026",
-    "WINDI YANTI":"PL-20/KS-JPR/2026",
-    "YOVI ALKAUSAR":"PL-21/KS-JPR/2026",
-    "AHMAD KURNIAWAN":"PL-22/KS-JPR/2026",
-    "ATIN NINDIA HARYATI":"PL-23/KS-JPR/2026",
-    "SITI WAHIDATUN CHASANAH":"PL-24/KS-JPR/2026",
-    "PANDU WICAKSONO":"PL-25/KS-JPR/2026",
-    "RD.RANGGA KUSUMA":"PL-26/KS-JPR/2026",
-    "SAEFUL ANWAR":"PL-27/KS-JPR/2026",
-    "YANUAR FARISYI":"PL-28/KS-JPR/2026",
-    "ARI SETIAWAN":"PL-29/KS-JPR/2026",
-    "TRIANTORO UTOMO":"PL-30/KS-JPR/2026",
-    "MUHAMMAD IN\'AMUL WAFI":"PL-31/KS-JPR/2026",
-    "AHMAD YUSUF ALI":"PL-32/KS-JPR/2026",
-    "ANGGI DWIYANTO":"PL-33/KS-JPR/2026",
-    "DEPI SUTIARNA":"PL-34/KS-JPR/2026",
-    "DONI HERBIYANTO":"PL-35/KS-JPR/2026",
-    "TS HM":"PL-36/KS-JPR/2026",
-    "EKA FENDI P.":"PL-37/KS-JPR/2026",
-    "FAHRUL HIDAYATULLAH":"PL-38/KS-JPR/2026",
-    "NUR ARIFIN ILYAS":"PL-39/KS-JPR/2026",
-    "IRFAN ADI PRASTIYA":"PL-40/KS-JPR/2026",
-    "PONCO ADI NUGROHO":"PL-41/KS-JPR/2026",
-    "M. RIZAL NUR JALALUDIN":"PL-42/KS-JPR/2026",
-    "SIGIT DWI PERMANA (TS HL IP)":"PL-43/KS-JPR/2026",
-    "KHAIRIAH HAFNI":"PL-44/KS-JPR/2026",
-    "MUHAMAD RIZAL JAELANI":"PL-45/KS-JPR/2026",
-    "RUDI HARTONO":"PL-46/KS-JPR/2026",
-    "MOCHAMAD ZAINAL ARIFIN":"PL-47/KS-JPR/2026",
-    "ABDUL BAIS SUPRIYADI":"PC-01/KS-JPR/2026",
-    "DHEA":"PC-02/KS-JPR/2026",
-    "FUJI ARYANI":"PC-03/KS-JPR/2026",
-    "RIVAL":"PC-04/KS-JPR/2026",
-    "NENG WIDIASTUTI":"PC-05/KS-JPR/2026",
-    "FIRDAUS":"PC-06/KS-JPR/2026",
-    "SAEFUL SUBUR":"PC-07/KS-JPR/2026",
-    "UUS R":"PC-08/KS-JPR/2026",
-    "DEDE SOBANI":"PC-09/KS-JPR/2026",
-    "MUHAMAD EVAN MAULANA":"PC-10/KS-JPR/2026",
-    "M. RIFAL Y":"PC-11/KS-JPR/2026",
-    "M. FATTAH SAOGI":"PC-12/KS-JPR/2026",
-    "SURIYANTO":"PC-13/KS-JPR/2026",
-    "MUHAMMAD TAUFIQ UMAR":"PC-14/KS-JPR/2026",
-    "YOGI JULIANSYAH":"PC-15/KS-JPR/2026",
-    "AZMAN HASAN":"PC-16/KS-JPR/2026",
-    "DELVI ERMIS LUTVIANZA":"PC-17/KS-JPR/2026",
-    "DENDI NURYADI":"PC-18/KS-JPR/2026",
-    "LISTI":"PC-19/KS-JPR/2026",
-    "FATEKHUL MUIZ":"PC-20/KS-JPR/2026",
-    "RICKY DARMAWAN REZA FAUZI":"PC-21/KS-JPR/2026",
-    "RONAL MAULANA":"PC-22/KS-JPR/2026",
-    "SIGIT DWI PERMANA (SERVER HL 1)":"PC-23/KS-JPR/2026",
-    "SIGIT DWI PERMANA (SERVER HL 2)":"PC-24/KS-JPR/2026",
-    "YOGA MUTIARA SINGGIH":"PC-25/KS-JPR/2026",
-    "ABDUH":"PC-26/KS-JPR/2026",
-    "AIRUL AKBAR":"PC-27/KS-JPR/2026",
-    "ALWAN HARIS":"PC-28/KS-JPR/2026",
-    "ARDI SEPTIAN":"PC-29/KS-JPR/2026",
-    "~CCR 1":"PC-30/KS-JPR/2026",
-    "~CCR 2":"PC-31/KS-JPR/2026",
-    "~CCR 3":"PC-32/KS-JPR/2026",
-    "DINI DANIARTI":"PC-33/KS-JPR/2026",
-    "EKO SAPUTRA":"PC-34/KS-JPR/2026",
-    "GILANG AGUNG":"PC-35/KS-JPR/2026",
-    "NAPOLEON NAUFAL AZIZ":"PC-36/KS-JPR/2026",
-    "~PC NIAGA":"PC-37/KS-JPR/2026",
-    "RIVAL AHMAD KADARULAH":"PC-38/KS-JPR/2026",
-    "YANTI":"PC-39/KS-JPR/2026"
-};
+const INV_MAP = {"BOWO PRAMONO":"MNJ-01/KS-JPR/2026","AGUS SETIAWAN":"MNJ-02/KS-JPR/2026","ANGGA PRADIPTA":"MNJ-03/KS-JPR/2026","DENI NUGRAHA":"MNJ-04/KS-JPR/2026","ARMAN SUSANTO":"MNJ-05/KS-JPR/2026","IRAWAN PARMAPUTRA":"MNJ-06/KS-JPR/2026","WILDANUL HAKIM":"MNJ-07/KS-JPR/2026","ANDRA BAYU PS":"PA-01/KS-JPR/2026","ANDY APRIANSYAH":"PA-02/KS-JPR/2026","ASEP TRESNA LH":"PA-03/KS-JPR/2026","HANDARIANSAH":"PA-04/KS-JPR/2026","ADITYA MAHARDHIKA":"PA-05/KS-JPR/2026","AGUNG PRASETYO":"PA-06/KS-JPR/2026","ALAM TRI YUDHA":"PA-07/KS-JPR/2026","ANDIK HERMAWANTO":"PA-08/KS-JPR/2026","ARIS CAHYONO":"PA-09/KS-JPR/2026","DADANG SAHRONI":"PA-10/KS-JPR/2026","DIAZ ZAKARIA":"PA-11/KS-JPR/2026","EDHY SANTOSO":"PA-12/KS-JPR/2026","FIRZA MULDANI":"PA-13/KS-JPR/2026","HERU HERMAWAN":"PA-14/KS-JPR/2026","HERY IRAWAN":"PA-15/KS-JPR/2026","IWAN HARDIKA":"PA-16/KS-JPR/2026","REMON YONASA HT":"PA-17/KS-JPR/2026","RONANDA ADITYA PN":"PA-18/KS-JPR/2026","SATRIA RIZKI":"PA-19/KS-JPR/2026","SUDIRMAN BE":"PA-20/KS-JPR/2026","SUDIRMAN BS":"PA-21/KS-JPR/2026","ADI AHMAD W":"PA-22/KS-JPR/2026","ARIE NOVIYANTO":"PA-23/KS-JPR/2026","AR\'RAHMANSYAH MUHAMAD":"PA-24/KS-JPR/2026","DANDI SUKMARAHADI":"PA-25/KS-JPR/2026","FAJAR SETIYONO":"PA-26/KS-JPR/2026","HALIM":"PA-27/KS-JPR/2026","SIGIT DWI PERMANA":"PA-28/KS-JPR/2026","ARUM SAKTI P":"PA-29/KS-JPR/2026","HANDOYO":"PA-30/KS-JPR/2026","LEO NARDY":"PA-31/KS-JPR/2026","MU\'RIDIN":"PA-32/KS-JPR/2026","ABNUR ODIRI":"PA-33/KS-JPR/2026","WAHYUDIN SIDIK":"PA-34/KS-JPR/2026","RAHWINDHY MAZHAR CHASNANDA":"PAD-01/KS-JPR/2026","ARI DWI CAHYONO":"PD-01/KS-JPR/2026","MOHAMMAD BAGUS OKKY":"PD-02/KS-JPR/2026","TUMPAL SAMOSIR":"PD-03/KS-JPR/2026","RIO RINARWANDI":"PD-04/KS-JPR/2026","MUHAMMAD IQBAL FIRDAUS":"PD-05/KS-JPR/2026","IRFAN":"PD-06/KS-JPR/2026","MUCHAMAD RIVALDI FK":"PD-07/KS-JPR/2026","ROBERT DAVID CARNIAGO":"PD-08/KS-JPR/2026","WASIS WICAKSONO":"PD-09/KS-JPR/2026","FK YUDO WICAKSONO SAPUTRO":"PD-10/KS-JPR/2026","AGUS KURNIAWAN":"PD-11/KS-JPR/2026","AGUS TOMI":"PD-12/KS-JPR/2026","MASEDONIUS ANDREW PRADANA U":"PD-13/KS-JPR/2026","BOBBY PRAYOGO":"PD-14/KS-JPR/2026","HAKIM SATYADI":"PD-15/KS-JPR/2026","MUHAMMAD SYUKRI HARDIANTO":"PD-16/KS-JPR/2026","HENDRI ASRIANDI":"PD-17/KS-JPR/2026","PRIMA RADIANSYAH":"PD-18/KS-JPR/2026","QOLIS FANDRA IRAWAN":"PD-19/KS-JPR/2026","RIZKY TRI SAPUTRO":"PD-20/KS-JPR/2026","TEGUH PURNAMA":"PD-21/KS-JPR/2026","JOSEPH WILANTARA GULO":"PD-22/KS-JPR/2026","BAMBANG KURNIAWAN":"PD-23/KS-JPR/2026","BAYU SAPTA NUGRAHA":"PD-24/KS-JPR/2026","NICO DWI KURNIADI":"PD-25/KS-JPR/2026","YAHYA ZULTHONI":"PD-26/KS-JPR/2026","ADITYA WIDAGDO PUTRA":"PD-27/KS-JPR/2026","ARDI SURYADINATA":"PD-28/KS-JPR/2026","BAGUS VANY SETIAWAN":"PD-29/KS-JPR/2026","BOBBY LUMBAN TOBING":"PD-30/KS-JPR/2026","MUHAMMAD NUR CHAMDANI":"PD-31/KS-JPR/2026","FAHRUDY UTOMO":"PD-32/KS-JPR/2026","FAJAR GUMILANG":"PD-33/KS-JPR/2026","MUHAMMAD FARRAS ILHAM":"PD-34/KS-JPR/2026","FERI SAPUTRA":"PD-35/KS-JPR/2026","HERBERT PANONDANG SINAGA":"PD-36/KS-JPR/2026","RAHMAT FAJAR KURNIAWAN":"PD-37/KS-JPR/2026","RAINHOLD TIGOR PARLINDUNGAN BUTARBUTAR":"PD-38/KS-JPR/2026","RIDHO DWI SAPUTRA":"PD-39/KS-JPR/2026","RIYAN JAMARIF":"PD-40/KS-JPR/2026","MUHAMAD SHOBIRIN":"PD-41/KS-JPR/2026","TRI BUDIMAN JABARTI":"PD-42/KS-JPR/2026","YOGI LISTIARGA":"PD-43/KS-JPR/2026","DUGARRY FIRMANSYAH HARIYANTO":"PD-44/KS-JPR/2026","AJI UNGGUL PRASETIA":"PD-45/KS-JPR/2026","ADDY MUHAMMAD YASIR ROZIKUN":"PD-46/KS-JPR/2026","DANANG HUTAMA":"PD-47/KS-JPR/2026","FADHOLI":"PD-48/KS-JPR/2026","FAJRI EKA MAULDY":"PD-49/KS-JPR/2026","GALIH TRI LAKSANA":"PD-50/KS-JPR/2026","GANDA ISNUARDANA":"PD-51/KS-JPR/2026","GARCIA VALDA UNSO":"PD-52/KS-JPR/2026","GENTA IRIANA":"PD-53/KS-JPR/2026","HADI HANNAR WIRYATMO":"PD-54/KS-JPR/2026","ILHAM KHRISNA NUGRAHA":"PD-55/KS-JPR/2026","ISMU MUBAROK":"PD-56/KS-JPR/2026","KUKUH SATRIYANTO":"PD-57/KS-JPR/2026","MENARA HUTAGAOL":"PD-58/KS-JPR/2026","NANDA PUJI ARIANTO":"PD-59/KS-JPR/2026","AHMAD NOPRAN ZULPIKAR":"PD-60/KS-JPR/2026","KURNIAWAN SAKTI PRATAMA":"PD-61/KS-JPR/2026","SARDI":"PD-62/KS-JPR/2026","MAULANA SIGIT WICAKSONO":"PD-63/KS-JPR/2026","IDAM KHOLID":"PD-64/KS-JPR/2026","TAUFIK KURNIAWAN":"PD-65/KS-JPR/2026","SYAFRUDIN":"PD-66/KS-JPR/2026","RIAN RAMADHAN":"PD-67/KS-JPR/2026","AJI SASONO BHAKTI":"PD-68/KS-JPR/2026","AGUS SUHERMAN":"DS-01/KS-JPR/2026","BAGAS":"DS-02/KS-JPR/2026","JUNAEDI":"DS-03/KS-JPR/2026","ARRAHMAN":"PLSIS-1/KS-JPR/2026","EJEN Z":"PLSIS-2/KS-JPR/2026","DAYINTA ANDAYANI":"PL-01/KS-JPR/2026","DEDEN MAULANA":"PL-02/KS-JPR/2026","DEDIN ADI HIDAYAT":"PL-03/KS-JPR/2026","DEVI RIVALDI":"PL-04/KS-JPR/2026","FAJAR":"PL-05/KS-JPR/2026","HATTA":"PL-06/KS-JPR/2026","HENDRIK AGUSTIAN":"PL-07/KS-JPR/2026","KUSTINAH":"PL-08/KS-JPR/2026","LELA NURLELA":"PL-09/KS-JPR/2026","NANCY PUTRI RAMADHANI":"PL-10/KS-JPR/2026","NITA SEPTIANI":"PL-11/KS-JPR/2026","NOVA":"PL-12/KS-JPR/2026","RESTI":"PL-13/KS-JPR/2026","MUHAMMAD RIAN":"PL-14/KS-JPR/2026","SAPTA RIZKA INTAN PRATAMI":"PL-15/KS-JPR/2026","SELA TRI YASMI":"PL-16/KS-JPR/2026","SEPTI AGRIANI":"PL-17/KS-JPR/2026","SOLEHAH JUMAILLAH":"PL-18/KS-JPR/2026","VERANI NINDYA":"PL-19/KS-JPR/2026","WINDI YANTI":"PL-20/KS-JPR/2026","YOVI ALKAUSAR":"PL-21/KS-JPR/2026","AHMAD KURNIAWAN":"PL-22/KS-JPR/2026","ATIN NINDIA HARYATI":"PL-23/KS-JPR/2026","SITI WAHIDATUN CHASANAH":"PL-24/KS-JPR/2026","PANDU WICAKSONO":"PL-25/KS-JPR/2026","RD.RANGGA KUSUMA":"PL-26/KS-JPR/2026","SAEFUL ANWAR":"PL-27/KS-JPR/2026","YANUAR FARISYI":"PL-28/KS-JPR/2026","ARI SETIAWAN":"PL-29/KS-JPR/2026","TRIANTORO UTOMO":"PL-30/KS-JPR/2026","MUHAMMAD IN\'AMUL WAFI":"PL-31/KS-JPR/2026","AHMAD YUSUF ALI":"PL-32/KS-JPR/2026","ANGGI DWIYANTO":"PL-33/KS-JPR/2026","DEPI SUTIARNA":"PL-34/KS-JPR/2026","DONI HERBIYANTO":"PL-35/KS-JPR/2026","TS HM":"PL-36/KS-JPR/2026","EKA FENDI P.":"PL-37/KS-JPR/2026","FAHRUL HIDAYATULLAH":"PL-38/KS-JPR/2026","NUR ARIFIN ILYAS":"PL-39/KS-JPR/2026","IRFAN ADI PRASTIYA":"PL-40/KS-JPR/2026","PONCO ADI NUGROHO":"PL-41/KS-JPR/2026","M. RIZAL NUR JALALUDIN":"PL-42/KS-JPR/2026","SIGIT DWI PERMANA (TS HL IP)":"PL-43/KS-JPR/2026","KHAIRIAH HAFNI":"PL-44/KS-JPR/2026","MUHAMAD RIZAL JAELANI":"PL-45/KS-JPR/2026","RUDI HARTONO":"PL-46/KS-JPR/2026","MOCHAMAD ZAINAL ARIFIN":"PL-47/KS-JPR/2026","ABDUL BAIS SUPRIYADI":"PC-01/KS-JPR/2026","DHEA":"PC-02/KS-JPR/2026","FUJI ARYANI":"PC-03/KS-JPR/2026","RIVAL":"PC-04/KS-JPR/2026","NENG WIDIASTUTI":"PC-05/KS-JPR/2026","FIRDAUS":"PC-06/KS-JPR/2026","SAEFUL SUBUR":"PC-07/KS-JPR/2026","UUS R":"PC-08/KS-JPR/2026","DEDE SOBANI":"PC-09/KS-JPR/2026","MUHAMAD EVAN MAULANA":"PC-10/KS-JPR/2026","M. RIFAL Y":"PC-11/KS-JPR/2026","M. FATTAH SAOGI":"PC-12/KS-JPR/2026","SURIYANTO":"PC-13/KS-JPR/2026","MUHAMMAD TAUFIQ UMAR":"PC-14/KS-JPR/2026","YOGI JULIANSYAH":"PC-15/KS-JPR/2026","AZMAN HASAN":"PC-16/KS-JPR/2026","DELVI ERMIS LUTVIANZA":"PC-17/KS-JPR/2026","DENDI NURYADI":"PC-18/KS-JPR/2026","LISTI":"PC-19/KS-JPR/2026","FATEKHUL MUIZ":"PC-20/KS-JPR/2026","RICKY DARMAWAN REZA FAUZI":"PC-21/KS-JPR/2026","RONAL MAULANA":"PC-22/KS-JPR/2026","SIGIT DWI PERMANA (SERVER HL 1)":"PC-23/KS-JPR/2026","SIGIT DWI PERMANA (SERVER HL 2)":"PC-24/KS-JPR/2026","YOGA MUTIARA SINGGIH":"PC-25/KS-JPR/2026","ABDUH":"PC-26/KS-JPR/2026","AIRUL AKBAR":"PC-27/KS-JPR/2026","ALWAN HARIS":"PC-28/KS-JPR/2026","ARDI SEPTIAN":"PC-29/KS-JPR/2026","~CCR 1":"PC-30/KS-JPR/2026","~CCR 2":"PC-31/KS-JPR/2026","~CCR 3":"PC-32/KS-JPR/2026","DINI DANIARTI":"PC-33/KS-JPR/2026","EKO SAPUTRA":"PC-34/KS-JPR/2026","GILANG AGUNG":"PC-35/KS-JPR/2026","NAPOLEON NAUFAL AZIZ":"PC-36/KS-JPR/2026","~PC NIAGA":"PC-37/KS-JPR/2026","RIVAL AHMAD KADARULAH":"PC-38/KS-JPR/2026","YANTI":"PC-39/KS-JPR/2026"};
 
 const ITEMS = ["Hardware", "Sistem Operasi", "Software", "Kondisi Fisik"];
 
@@ -755,18 +1126,12 @@ function handleAuto() {
 
 async function save() {
     const rawVal = document.getElementById("nama").value.trim();
-
-    // 1. Validasi Periode
     if (!document.getElementById("periode").value) { 
         alert("⚠️ Pilih Periode Laporan dulu Bro!"); 
         return; 
     }
-
-    // 2. Validasi Nama
     const n = rawVal.toUpperCase();
     if (!DB[n]) { alert("⚠️ Nama tidak ditemukan!"); return; }
-    
-    // 3. Validasi Checklist & Persentase
     if (!document.getElementById("pernyataan").checked) { alert("⚠️ Centang pernyataan dulu!"); return; }
     const isManual = document.getElementById("persen").value === "manual";
     const manualVal = document.getElementById("persen_manual").value;
